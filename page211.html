@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>For You ❤️</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <!-- Romantic Script Font -->
+  <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&display=swap" rel="stylesheet">
+
+  <style>
+    body {
+      margin: 0;
+      overflow: hidden;
+      background: #000;
+      font-family: 'Great Vibes', cursive;
+    }
+
+    /* 🔥 THREE.JS CANVAS (BEHIND EVERYTHING) */
+    canvas {
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      pointer-events: none; /* 👈 IMPORTANT */
+    }
+
+    svg {
+      display: none;
+    }
+
+    /* 💖 TEXT + BUTTON LAYER */
+    .love-wrapper {
+      position: fixed;
+      inset: 0;
+      z-index: 10;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      pointer-events: auto;
+    }
+
+    .love-text {
+      color: #ff9fc9;
+      text-align: center;
+      opacity: 0;
+      transform: scale(0.9);
+      animation: showText 2.5s ease forwards;
+      animation-delay: 9.8s;
+    }
+
+    .love-text .my {
+      font-size: clamp(38px, 5vw, 55px);
+      opacity: 0.9;
+    }
+
+    .love-text .batki {
+      font-size: clamp(60px, 8.5vw, 95px);
+      line-height: 1;
+      text-shadow:
+        0 0 15px rgba(255, 120, 170, 0.6),
+        0 0 35px rgba(255, 120, 170, 0.4);
+      animation: heartbeat 1.6s infinite ease-in-out;
+    }
+
+    /* 👉 NEXT BUTTON */
+    .next-btn {
+      margin-top: 30px;
+      padding: 10px 28px;
+      font-size: 22px;
+      font-family: 'Great Vibes', cursive;
+      color: #ff9fc9;
+      background: transparent;
+      border: 1px solid rgba(255, 160, 200, 0.6);
+      border-radius: 40px;
+      cursor: pointer;
+      opacity: 0;
+      box-shadow: 0 0 20px rgba(255, 120, 170, 0.3);
+      animation: showButton 2s ease forwards;
+      animation-delay: 15s;
+      transition: all 0.3s ease;
+    }
+
+    .next-btn:hover {
+      background: rgba(255, 160, 200, 0.15);
+      box-shadow: 0 0 30px rgba(255, 120, 170, 0.6);
+      transform: scale(1.05);
+    }
+
+    @keyframes showText {
+      to { opacity: 1; transform: scale(1); }
+    }
+
+    @keyframes showButton {
+      to { opacity: 1; }
+    }
+
+    @keyframes heartbeat {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.05); }
+    }
+  </style>
+</head>
+
+<body>
+
+<!-- 💖 TEXT + BUTTON -->
+<div class="love-wrapper">
+  <div class="love-text">
+    <div class="my">𝓜𝔂</div>
+    <div class="batki">𝓑𝓪𝓽𝓴𝓲𝓲𝓲</div>
+  </div>
+
+  <button class="next-btn" onclick="goNext()">Next →</button>
+</div>
+
+<!-- HEART SVG -->
+<svg viewBox="0 0 600 552">
+  <path id="heartPath"
+    d="M300,107.77C284.68,55.67,239.76,0,162.31,0,64.83,0,0,82.08,0,171.71c0,.48,0,.95,0,1.43-.52,19.5,0,217.94,299.87,379.69v0l0,0,.05,0,0,0,0,0v0C600,391.08,600.48,192.64,600,173.14c0-.48,0-.95,0-1.43C600,82.08,535.17,0,437.69,0,360.24,0,315.32,55.67,300,107.77"/>
+</svg>
+
+<script src="https://cdn.jsdelivr.net/npm/three@0.136.0/build/three.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.136.0/examples/js/controls/OrbitControls.js"></script>
+<script src="https://unpkg.com/gsap@3/dist/gsap.min.js"></script>
+
+<script>
+/* 👉 NEXT PAGE */
+function goNext() {
+  window.location.href = "./page3.html";
+}
+
+/* ================= THREE.JS HEART ================= */
+
+const scene = new THREE.Scene();
+
+const camera = new THREE.PerspectiveCamera(75, innerWidth / innerHeight, 0.1, 5000);
+camera.position.z = 500;
+
+const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
+renderer.setPixelRatio(Math.min(devicePixelRatio, 2));
+renderer.setSize(innerWidth, innerHeight);
+document.body.appendChild(renderer.domElement);
+
+new THREE.OrbitControls(camera, renderer.domElement);
+
+const tl = gsap.timeline({ repeat: -1, yoyo: true });
+
+const path = document.getElementById("heartPath");
+const length = path.getTotalLength();
+const vertices = [];
+
+for (let i = 0; i < length; i += 0.1) {
+  const p = path.getPointAtLength(i);
+  const v = new THREE.Vector3(
+    p.x + (Math.random() - 0.5) * 30,
+    -p.y + (Math.random() - 0.5) * 30,
+    (Math.random() - 0.5) * 70
+  );
+  vertices.push(v);
+
+  tl.from(v, {
+    x: 300,
+    y: -276,
+    z: 0,
+    duration: gsap.utils.random(2, 5),
+    ease: "power2.inOut"
+  }, i * 0.002);
+}
+
+const geometry = new THREE.BufferGeometry().setFromPoints(vertices);
+const material = new THREE.PointsMaterial({
+  color: 0xee5282,
+  size: 3,
+  blending: THREE.AdditiveBlending
+});
+
+const heart = new THREE.Points(geometry, material);
+heart.position.x -= 300;
+heart.position.y += 276;
+scene.add(heart);
+
+/* ❤️ LEFT–RIGHT SWAY */
+gsap.fromTo(scene.rotation, { y: -0.2 }, {
+  y: 0.2,
+  repeat: -1,
+  yoyo: true,
+  duration: 3,
+  ease: "power2.inOut"
+});
+
+function render() {
+  requestAnimationFrame(render);
+  geometry.setFromPoints(vertices);
+  renderer.render(scene, camera);
+}
+render();
+
+addEventListener("resize", () => {
+  camera.aspect = innerWidth / innerHeight;
+  camera.updateProjectionMatrix();
+  renderer.setSize(innerWidth, innerHeight);
+});
+</script>
+
+</body>
+</html>

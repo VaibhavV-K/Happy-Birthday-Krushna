@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>For You ❤️</title>
+  <link rel="stylesheet" href="index1.html">
+    
+  </link>
+  <style>
+    body {
+      margin: 0;
+      height: 100vh;
+      background: radial-gradient(circle at top, #ffdde1, #ee9ca7);
+      overflow: hidden;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+      font-family: "Poppins", sans-serif;
+      color: #fff;
+      text-align: center;
+    }
+
+    h1 {
+      font-size: 4rem;
+      font-weight: 700;
+      animation: fadeDown 2s ease-out forwards;
+      opacity: 0;
+      margin: 0;
+    }
+
+    p {
+      font-size: 1.5rem;
+      margin-top: 20px;
+      max-width: 600px;
+      line-height: 1.6;
+      opacity: 0;
+      animation: fadeUp 2.5s ease-out forwards;
+      animation-delay: 1.2s;
+    }
+
+    /* Button */
+    .next-btn {
+      margin-top: 40px;
+      padding: 15px 40px;
+      font-size: 1.2rem;
+      background: linear-gradient(45deg, #ff6b8b, #ff8e9e);
+      color: #FFFFFF;
+      border: none;
+      border-radius: 40px;
+      text-decoration: none;
+      font-weight: 600;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+      transition: all 0.3s ease;
+      opacity: 0;
+      animation: fadeUp 2s ease-out forwards;
+      animation-delay: 2s;
+    }
+
+    .next-btn:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 15px 40px rgba(238,42,123,0.4);
+    }
+
+    /* Floating shapes */
+    .shape {
+      position: absolute;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.2);
+      animation: floatShape 15s linear infinite;
+    }
+
+    .shape.small {
+      width: 20px; height: 20px;
+    }
+    .shape.medium {
+      width: 40px; height: 40px;
+    }
+    .shape.large {
+      width: 70px; height: 70px;
+    }
+
+    /* Keyframes */
+    @keyframes fadeDown {
+      from { transform: translateY(-50px); opacity: 0; }
+      to { transform: translateY(0); opacity: 1; }
+    }
+
+    @keyframes fadeUp {
+      from { transform: translateY(50px); opacity: 0; }
+      to { transform: translateY(0); opacity: 1; }
+    }
+
+    @keyframes floatShape {
+      0% { transform: translateY(100vh) scale(1); opacity: 0; }
+      10% { opacity: 0.3; }
+      50% { opacity: 0.7; }
+      100% { transform: translateY(-20vh) scale(1.2); opacity: 0; }
+    }
+  </style>
+</head>
+<body>
+  <h1>My Forever 💗 🎀</h1>
+  <p>
+    You are not just my love,<br>
+    you are my peace, my dream, and my endless happiness.  
+  </p>
+  <a href="page2.html" class="next-btn"> Start magic ✨ </a>
+    <!--Tab to edit-->
+
+  <script>
+    // Generate floating shapes
+    function createShapes() {
+      for (let i = 0; i < 20; i++) {
+        const shape = document.createElement("div");
+        shape.classList.add("shape");
+
+        let size = ["small","medium","large"][Math.floor(Math.random()*3)];
+        shape.classList.add(size);
+
+        shape.style.left = `${Math.random()*100}vw`;
+        shape.style.animationDuration = `${10 + Math.random()*10}s`;
+        shape.style.animationDelay = `${Math.random()*5}s`;
+
+        document.body.appendChild(shape);
+      }
+    }
+    createShapes();
+  </script>
+</body>
+</html>

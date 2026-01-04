@@ -1,0 +1,36 @@
+.equation-box {
+  position: absolute;
+  top: 10px;
+  width: 100%;
+  text-align: center;
+  z-index: 10;
+  animation: glowFade 2s infinite alternate;
+}
+
+@keyframes glowFade {
+  from {
+    opacity: 0.5;
+    text-shadow: 0 0 5px #ff69b4, 0 0 10px #ff69b4, 0 0 20px #ff69b4;
+  }
+  to {
+    opacity: 1;
+    text-shadow: 0 0 10px #ff69b4, 0 0 20px #ff69b4, 0 0 30px #ff1493;
+  }
+}
+
+.equation-title {
+  display: inline-block;
+  background-color: rgba(0, 0, 0, 0.4);
+  color: #fff0f5;
+  padding: 10px 18px;
+  border-radius: 12px;
+  font-size: 16px;
+  font-family: 'Segoe UI', sans-serif;
+  font-weight: bold;
+}
+
+.equation {
+  font-family: 'Courier New', monospace;
+  font-size: 15px;
+  color: #ffffff;
+}
